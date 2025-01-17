@@ -1,39 +1,92 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Send } from 'lucide-react'
-import { GoogleGenerativeAI } from "@google/generative-ai"
+import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from "@google/generative-ai"
 
-const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY
-const genAI = new GoogleGenerativeAI(apiKey as string)
+const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
+const genAI = new GoogleGenerativeAI(apiKey as string);
+
+const model = genAI.getGenerativeModel({
+  model: "gemini-2.0-flash-exp",
+});
+
+const generationConfig = {
+  temperature: 1,
+  topP: 0.95,
+  topK: 40,
+  maxOutputTokens: 8192,
+  responseMimeType: "text/plain",
+};
 
 export function GeminiChatModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   const [input, setInput] = useState('')
   const [messages, setMessages] = useState<{ role: string; content: string }[]>([])
   const [isLoading, setIsLoading] = useState(false)
 
-  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" })
 
   const sendMessage = async () => {
-    if (!input.trim()) return
+    if (!input.trim()) return;
 
-    setMessages(prev => [...prev, { role: 'user', content: input }])
-    setInput('')
-    setIsLoading(true)
+    setMessages(prev => [...prev, { role: 'user', content: input }]);
+    setInput('');
+    setIsLoading(true);
 
     try {
-      const result = await model.generateContent(input)
-      const response = await result.response
-      const text = response.text()
-      setMessages(prev => [...prev, { role: 'assistant', content: text }])
+      const chatSession = model.startChat({
+        generationConfig,
+        history: [
+          {
+            role: "user",
+            parts: [
+              {text: "You are Alice, a concise and smart chatbot that helps issuing authorities quickly create credentials like report cards, ID cards, and certificates. Your answers should be brief, to the point, and easy to follow. Provide only the necessary details unless more information is requested.\n\nExamples of Interaction\nExample 1: End-Semester Report Card\nUser: I want to issue an end-semester report card.\nAlice:\nInclude:\n\nInstitution name, logo, address.\nStudent name, roll number, course, semester.\nSubjects and marks (e.g., Math: 88/100, Physics: 76/100).\nOverall percentage or grade.\nIssued by: Authority’s name and designation.\nDescription:\n“This certifies [Student Name] has completed [Semester] with the following grades.”\n\nExample 2: Identification Card\nUser: I want to issue an ID card.\nAlice:\nInclude:\n\nOrganization name, logo.\nFull name, ID number, role, department.\nContact details (email, phone).\nValidity period, barcode/QR code.\nDescription:\n“ID for [Name], [Role], valid until [Date].”\n\nExample 3: Certificate of Achievement\nUser: I need a certificate template for training completion.\nAlice:\nInclude:\n\nTitle: \"Certificate of Completion.\"\nName, course, date.\nIssuer name, signature, logo.\nDescription:\n“Certifies [Name] completed [Course] on [Date].”\n"},
+            ],
+          },
+          {
+            role: "model",
+            parts: [
+              {text: "Okay, I'm ready. Just tell me what kind of credential you need.\n"},
+            ],
+          },
+          {
+            role: "user",
+            parts: [
+              {text: "what should i do alice for an end sem report card\n"},
+            ],
+          },
+          {
+            role: "model",
+            parts: [
+              {text: "Include:\n\nInstitution name, logo, address.\nStudent name, roll number, course, semester.\nSubjects and marks (e.g., Math: 88/100, Physics: 76/100).\nOverall percentage or grade.\nIssued by: Authority’s name and designation.\nDescription:\n“This certifies [Student Name] has completed [Semester] with the following grades.”\n"},
+            ],
+          },
+          {
+            role: "user",
+            parts: [
+              {text: "create a description for the end sem then with the name rico lewis and cgpa 9 also honors in maths"},
+            ],
+          },
+          {
+            role: "model",
+            parts: [
+              {text: "Description: \"This certifies Rico Lewis has completed the semester with a CGPA of 9.0 and honors in Mathematics.\"\n"},
+            ],
+          },
+        ],
+      });
+
+      const result = await chatSession.sendMessage(input);
+      const response = result.response;
+      const text = response.text();
+      setMessages(prev => [...prev, { role: 'assistant', content: text }]);
     } catch (error) {
-      console.error('Error:', error)
-      setMessages(prev => [...prev, { role: 'assistant', content: 'Sorry, I encountered an error.' }])
+      console.error('Error:', error);
+      setMessages(prev => [...prev, { role: 'assistant', content: 'Sorry, I encountered an error.' }]);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <AnimatePresence>
