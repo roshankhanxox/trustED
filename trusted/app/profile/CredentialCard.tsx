@@ -3,7 +3,7 @@ import { useState,useEffect } from 'react'
 import { readContract } from '@wagmi/core'
 import { CredentialNFTAddress, credentialNFTAbi } from '@/app/abi'
 import { config } from '@/app/wagmi'
-import CredentialCard from './CredentialCard2'
+import CredentialCard from './CredentialCardactual';
 
 export function CredentialsSection() {
   const { address } = useAccount()
