@@ -32,7 +32,7 @@ export function Navbar() {
           <Link href="/" className="text-xl font-bold text-white flex items-center">
             <Shield className="w-6 h-6 mr-2 text-purple-400" />
             <span className="bg-gradient-to-r from-purple-400 to-blue-500 text-transparent bg-clip-text">
-              Cred Verify
+              TrustED
             </span>
           </Link>
           <Link href="/about" className="text-gray-300 hover:text-white transition duration-300">

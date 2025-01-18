@@ -103,16 +103,26 @@ export const HeroParallax = ({
 
 export const Header = () => {
   return (
-    <div className="max-w-7xl relative mx-auto py-20 md:py-40 px-4 w-full  left-0 top-0">
-      <h1 className="text-2xl md:text-7xl font-bold dark:text-white">
-        The Ultimate <br /> development studio
+    // <div className="max-w-7xl relative mx-auto py-20 md:py-40 px-4 w-full  left-0 top-0">
+    //   <h1 className="text-2xl md:text-7xl font-bold dark:text-white">
+    //     The Ultimate <br /> development studio
+    //   </h1>
+    //   <p className="max-w-2xl text-base md:text-xl mt-8 dark:text-neutral-200">
+    //     We build beautiful products with the latest technologies and frameworks.
+    //     We are a team of passionate developers and designers that love to build
+    //     amazing products.
+    //   </p>
+    // </div>
+    <div className="max-w-7xl relative mx-auto py-20 md:py-40 px-4 w-full left-0 top-0">
+      <h1 className="text-2xl md:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-500">
+          TrustED <br /> Revolutionizing Credential Verification.
       </h1>
-      <p className="max-w-2xl text-base md:text-xl mt-8 dark:text-neutral-200">
-        We build beautiful products with the latest technologies and frameworks.
-        We are a team of passionate developers and designers that love to build
-        amazing products.
+      <p className="max-w-2xl text-base md:text-xl mt-8 text-purple-200">
+        We redefine trust in credential verification with blockchain technology.
+        Our platform ensures your achievements are validated, tamper-proof, and globally recognized.
       </p>
     </div>
+
   );
 };
 
@@ -139,7 +149,7 @@ export const ProductCard = ({
       className="group/product h-96 w-[30rem] relative flex-shrink-0"
     >
       <Link
-        href={product.link}
+        href=""
         className="block group-hover/product:shadow-2xl "
       >
         <Image

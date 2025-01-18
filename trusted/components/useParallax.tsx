@@ -1,24 +1,11 @@
 "use client";
-
-import { ConnectButton } from '@rainbow-me/rainbowkit';
 import React from "react";
-import { HeroParallax } from "../components/ui/hero-parallax";
+import { HeroParallax } from "./ui/hero-parallax";
 
-const PINATA_JWT = process.env.PINATA_JWT;
-console.log(PINATA_JWT);
-
-function Page() {
-  return (
-    <div className='bg-gray-900'>
-      <HeroParallax products={products} />;
-      
-    </div>
-  );
+export function HeroParallaxDemo() {
+  return <HeroParallax products={products} />;
 }
-
-export default Page;
-
-const products = [
+export const products = [
   {
     title: "Moonbeam",
     link: "https://gomoonbeam.com",
@@ -113,6 +100,3 @@ const products = [
       "https://aceternity.com/images/products/thumbnails/new/efreeinvoice.png",
   },
 ];
-
-
-
