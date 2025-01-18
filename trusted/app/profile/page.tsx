@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -7,6 +8,8 @@ import { useAccount, useReadContract, useWriteContract } from "wagmi";
 import { waitForTransactionReceipt } from "@wagmi/core";
 import { SocialAbi, profileaddress } from "@/app/abi";
 import { config } from "@/app/wagmi";
+import { CredentialsSection } from "./CredentialCard";
+
 
 const NEXT_PUBLIC_PINATA_JWT = process.env.NEXT_PUBLIC_PINATA_JWT || undefined;
 
@@ -94,6 +97,7 @@ export default function UserProfile() {
       setImagePreview(previewUrl);
     }
   };
+
 
   const uploadImageToPinata = async (file: File) => {
     try {
@@ -358,6 +362,7 @@ export default function UserProfile() {
                     <ProfileField label="Gender" value={profileData?.gender} />
                     <ProfileField label="Fun Fact" value={profileData?.funFact} />
                     <ProfileField label="Description" value={profileData?.description} />
+                    <CredentialsSection />
                   </div>
                 </div>
               )}
@@ -456,6 +461,8 @@ const ProfileField = ({ label, value }: { label: string; value: string | number 
     <p className="text-purple-400 text-sm font-semibold mb-1">{label}</p>
     <p className="text-white font-medium break-words">{value}</p>
   </div>
+
+  
 );
 
 const FormField = ({ label, id, value, onChange, type = "text", icon }: { label: string; id: string; value: string; onChange: (value: string) => void; type?: string; icon: React.ReactNode }) => (
