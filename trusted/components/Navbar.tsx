@@ -35,11 +35,17 @@ export function Navbar() {
               TrustED
             </span>
           </Link>
-          <Link href="/about" className="text-gray-300 hover:text-white transition duration-300">
-            About
+          <Link href="/issue" className="text-gray-300 hover:text-white transition duration-300">
+            Issue
           </Link>
-          <Link href="/dashboard" className="text-gray-300 hover:text-white transition duration-300">
-            Dashboard
+          <Link href="/verify" className="text-gray-300 hover:text-white transition duration-300">
+            Verify
+          </Link>
+          <Link href="/profile" className="text-gray-300 hover:text-white transition duration-300">
+            Profile
+          </Link>
+          <Link href="/leaderboards" className="text-gray-300 hover:text-white transition duration-300">
+            Leaderboards
           </Link>
         </div>
         <ConnectButton />
